@@ -12,7 +12,7 @@ $ ->
     @report: (action, subject) ->
       return unless mixpanel?
 
-      console.log "Melange: #{action} #{subject}"
+      console.log "Melange: #{action} #{subject}" if window.console
       mixpanel.track("#{action} #{subject}")
 
   window.Melange = Melange
