@@ -19,4 +19,5 @@ $ ->
   Melange.init()
 
   # Individual reports
-  # Melange.report "clicked", "some button"
+  # $(".button").click ->
+  #   Melange.report "clicked", "some button"
