@@ -9,7 +9,7 @@ class Melange
     mixpanel.people.identify(user) if user? 
 
   @reportView: (subject, meta) ->
-    @report("viewed", [@host,subject].join(""), meta)
+    @report("view", [@host,subject].join(""), meta)
 
   @report: (action, subject, meta = {}) ->
     return unless mixpanel?

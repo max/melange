@@ -21,7 +21,7 @@
     };
 
     Melange.reportView = function(subject, meta) {
-      return this.report("viewed", [this.host, subject].join(""), meta);
+      return this.report("view", [this.host, subject].join(""), meta);
     };
 
     Melange.report = function(action, subject, meta) {
