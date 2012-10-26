@@ -27,7 +27,7 @@ example:
 * open modal
 
 If you would like to track page views in aggregate try something like this
-(requires [extractValues](https://github.com/zeke/extract-values)):
+(requires [extractValues](https://github.com/laktek/extract-values)):
 
 ```coffee
 $ ->
