@@ -1,7 +1,8 @@
 # Melange
 
-A simple wrapper around the Mixpanel Javascript API. It tracks all page views by
-default and identifies a user if `window.user` is set.
+Melange is a simple wrapper around the 
+[Mixpanel Javascript API](https://mixpanel.com/docs/integration-libraries/javascript-full-api).
+It tracks all page views by default and identifies a user if `window.user` is set.
 
 ## Usage
 
@@ -54,3 +55,17 @@ $ ->
         Melange.reportView(pattern, meta)
         break
 ```
+
+Development
+-----------
+
+Use coffee to watch and compile:
+
+```bash
+coffee -wc *.coffee
+```
+
+License
+-------
+
+MIT. Go Nuts.
