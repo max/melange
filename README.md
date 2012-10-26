@@ -3,25 +3,34 @@
 A simple wrapper around the Mixpanel Javascript API. It tracks all page views by
 default and identifies a user if `window.user` is set.
 
-Custom actions are submitted in the format of `action` `subject`. For example:
+## Usage
+
+```coffee
+$ ->
+  # Initilaize Melange
+  Melange.init()
+
+  # Start tracking events
+  $(".button").click ->
+    Melange.report "clicked", "some button"
+```
+
+It's recommended that you track events in the format of `action` `subject`. For
+example:
 
 * viewed homepage
 * clicked button
 * opened modal
 
-```coffee
-$(".button").click ->
-  Melange.report "clicked", "some button"
-```
-
-If you want to track page views in aggregate try something like this:
+If you would like to track page views in aggregate try something like this
+(requires [extractValues](https://github.com/zeke/extract-values)):
 
 ```coffee
 $ ->
-  # Mixpanel tracking via Melange
+  # Initialize Melange
   Melange.init()
 
-  # Track page views in aggregates
+  # Define pages to track (with or without patterns)
   patterns = [
     "/apps"
     "/apps/{app}/resources"

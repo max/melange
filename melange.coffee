@@ -1,23 +1,17 @@
-$ ->
-  class Melange
-    @init: ->
-      return unless mixpanel?
+class Melange
+  @init: ->
+    return unless mixpanel?
 
-      # Identify current user early
-      mixpanel.people.identify(user) if user? 
+    # Identify current user early
+    mixpanel.people.identify(user) if user? 
 
-      # Track all page views by default
-      Melange.report("viewed", [location.hostname,location.pathname].join(""))
+  @reportView: (subject, meta) ->
+    @report("viewed", [location.hostname,subject].join(""), meta)
 
-    @report: (action, subject) ->
-      return unless mixpanel?
+  @report: (action, subject, meta = {}) ->
+    return unless mixpanel?
 
-      console.log "Melange: #{action} #{subject}" if window.console
-      mixpanel.track("#{action} #{subject}")
+    console.log "Melange: #{action} #{subject}" if window.console
+    mixpanel.track("#{action} #{subject}", meta)
 
-  window.Melange = Melange
-  Melange.init()
-
-  # Individual reports
-  # $(".button").click ->
-  #   Melange.report "clicked", "some button"
+window.Melange = Melange
