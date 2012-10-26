@@ -11,8 +11,12 @@ $ ->
   Melange.init()
 
   # Start tracking events
-  $(".button").click ->
-    Melange.report "clicked", "some button"
+  $(".element").click ->
+    Melange.report "clicked", "some element"
+
+  # You can also attach meta data to your events
+  $(".element").click ->
+    Melange.report "clicked", "some element", { "a key": "a value" }
 ```
 
 It's recommended that you track events in the format of `action` `subject`. For
