@@ -43,10 +43,10 @@ $ ->
   ]
 
   # Remove trailing slashes
-  pathname = location.pathname.replace(/\/$/, '')
+  pathname = location.pathname.replace(/\/$/, "")
 
   for pattern in patterns
-    if pathname.match(new RegExp(pattern))
+    if pathname.match(new RegExp("#{pattern}$"))
       Melange.reportView(pattern)
       break
     else
