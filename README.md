@@ -9,7 +9,39 @@ Custom actions are submitted in the format of `action` `subject`. For example:
 * clicked button
 * opened modal
 
-```coffeescript
+```coffee
 $(".button").click ->
   Melange.report "clicked", "some button"
+```
+
+If you want to track page views in aggregate try something like this:
+
+```coffee
+$ ->
+  # Mixpanel tracking via Melange
+  Melange.init()
+
+  # Track page views in aggregates
+  patterns = [
+    "/apps"
+    "/apps/{app}/resources"
+    "/apps/{app}/activity"
+    "/apps/{app}/collaborators"
+    "/apps/{app}/settings"
+    "/account"
+    "/addons/{addon}:{plan}"
+  ]
+
+  # Remove trailing slashes
+  pathname = location.pathname.replace(/\/$/, '')
+
+  for pattern in patterns
+    if pathname.match(new RegExp(pattern))
+      Melange.reportView(pattern)
+      break
+    else
+      meta = extractValues(pathname, pattern)
+      if meta?
+        Melange.reportView(pattern, meta)
+        break
 ```
