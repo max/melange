@@ -1,4 +1,7 @@
 class Melange
+  
+  @host ?= location.hostname
+
   @init: ->
     return unless mixpanel?
 
@@ -6,7 +9,7 @@ class Melange
     mixpanel.people.identify(user) if user? 
 
   @reportView: (subject, meta) ->
-    @report("viewed", [location.hostname,subject].join(""), meta)
+    @report("viewed", [@host,subject].join(""), meta)
 
   @report: (action, subject, meta = {}) ->
     return unless mixpanel?

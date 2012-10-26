@@ -3,8 +3,13 @@
   var Melange;
 
   Melange = (function() {
+    var _ref;
 
     function Melange() {}
+
+    if ((_ref = Melange.host) == null) {
+      Melange.host = location.hostname;
+    }
 
     Melange.init = function() {
       if (typeof mixpanel === "undefined" || mixpanel === null) {
@@ -16,7 +21,7 @@
     };
 
     Melange.reportView = function(subject, meta) {
-      return this.report("viewed", [location.hostname, subject].join(""), meta);
+      return this.report("viewed", [this.host, subject].join(""), meta);
     };
 
     Melange.report = function(action, subject, meta) {
