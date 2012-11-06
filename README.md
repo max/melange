@@ -12,19 +12,19 @@ $ ->
 
   # Start tracking events
   $(".element").click ->
-    Melange.report "click", "some element"
+    Melange.report "clicked", "some element"
 
   # You can also attach meta data to your events
   $(".element").click ->
-    Melange.report "click", "some element", { "a key": "a value" }
+    Melange.report "clicked", "some element", { "a key": "a value" }
 ```
 
-It's recommended that you track events in the format of `action` `subject`. For
-example:
+It's recommended that you track events in the format of `action` (in past tense)
+`subject`. For example:
 
-* view homepage
-* click button
-* open modal
+* viewed homepage
+* clicked button
+* opened modal
 
 If you would like to track page views in aggregate try something like this
 (requires [extractValues](https://github.com/laktek/extract-values)):
