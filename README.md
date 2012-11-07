@@ -19,6 +19,23 @@ $ ->
     Melange.report "clicked", "some element", { "a key": "a value" }
 ```
 
+Usage Tips
+----------
+
+Set `Melange.debug = true` to see events logged in 
+the console instead of sending them to mixpanel.
+
+Sometimes you want to test a link click event, but your browser
+redirects to the link before you have a chance to see the results 
+logged in the console. To get around this, you can temporarily prevent the 
+event from bubbling by returning false, like so:
+
+```coffee
+$("a").click ->
+  Melange.report "clicked", "some link"
+  false
+```
+
 It's recommended that you track events in the format of `action` (in past tense)
 `subject`. For example:
 
@@ -31,10 +48,10 @@ If you would like to track page views in aggregate try something like this
 
 ```coffee
 $ ->
-  # Initialize Melange
+
   Melange.init()
 
-  # Define pages to track (with or without patterns)
+  # Pages to track (with or without patterns)
   patterns = [
     "/apps"
     "/apps/{app}/resources"
@@ -55,6 +72,7 @@ $ ->
         Melange.reportView(pattern, meta)
         break
 ```
+
 
 Development
 -----------

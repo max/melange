@@ -7,14 +7,21 @@ class Melange
 
     # Identify current user early
     mixpanel.people.identify(user) if user? 
-
-  @reportView: (subject, meta) ->
-    @report("viewed", [@host,subject].join(""), meta)
+    
+  @log: ->
+    if window.console
+      console.log.apply console, arguments
 
   @report: (action, subject, meta = {}) ->
     return unless mixpanel?
 
-    console.log "Melange: #{action} #{subject}" if window.console
-    mixpanel.track("#{action} #{subject}", meta)
+    if @debug
+      @log "Melange.report", action, subject, meta
+    else
+      mixpanel.track("#{action} #{subject}", meta)
+    
+  @reportView: (subject, meta) ->
+    @report("viewed", [@host,subject].join(""), meta)
+
 
 window.Melange = Melange
