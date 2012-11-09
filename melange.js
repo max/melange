@@ -11,13 +11,28 @@
       Melange.host = location.hostname;
     }
 
-    Melange.init = function() {
+    Melange.config = {
+      debug: false,
+      preventBubbling: false
+    };
+
+    Melange.init = function(options) {
+      if (options == null) {
+        options = {};
+      }
       if (typeof mixpanel === "undefined" || mixpanel === null) {
         return;
       }
       if (typeof user !== "undefined" && user !== null) {
-        return mixpanel.people.identify(user);
+        mixpanel.people.identify(user);
       }
+      if (options.debug != null) {
+        this.config.debug = options.debug;
+      }
+      if (options.preventBubbling != null) {
+        this.config.preventBubbling = options.preventBubbling;
+      }
+      return this.setupEventHandlers();
     };
 
     Melange.log = function() {
@@ -30,7 +45,7 @@
       if (typeof mixpanel === "undefined" || mixpanel === null) {
         return;
       }
-      if (this.debug) {
+      if (this.config.debug) {
         return this.log(event_name, properties, callback);
       } else {
         return mixpanel.track(event_name, properties, callback);
@@ -39,6 +54,33 @@
 
     Melange.reportView = function(path, properties) {
       return this.report("viewed " + this.host + path, properties);
+    };
+
+    Melange.setupEventHandlers = function() {
+      var event_type, event_types, _i, _len, _results;
+      event_types = ['blur', 'change', 'click', 'dblclick', 'focus', 'keydown', 'keypress', 'keyup', 'load', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'resize', 'scroll', 'select', 'submit', 'unload'];
+      _results = [];
+      for (_i = 0, _len = event_types.length; _i < _len; _i++) {
+        event_type = event_types[_i];
+        _results.push($("[data-trigger=" + event_type + "]").on(event_type, function() {
+          var event_name, properties;
+          properties = $(this).data();
+          event_name = properties.event_name;
+          if (event_name == null) {
+            return;
+          }
+          delete properties.trigger;
+          delete properties.event_name;
+          if ($(this)[0] && $(this)[0].nodeName && $(this)[0].nodeName.toLowerCase() === "input") {
+            properties.input_value = $(this).val();
+          }
+          Melange.report(event_name, properties);
+          if (Melange.config.preventBubbling) {
+            return false;
+          }
+        }));
+      }
+      return _results;
     };
 
     return Melange;

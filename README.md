@@ -2,21 +2,26 @@
 
 Melange is a simple wrapper around the [Mixpanel Javascript
 API](https://mixpanel.com/docs/integration-libraries/javascript-full-api).
+It mimics the Mixpanel API in most respects, but adds some helpful features 
+like automatic tracking of pageviews and event tracking based on data attributes 
+you set on your DOM elements.
+
+Melange currently has a dependency on jQuery, which it uses for DOM selectors, 
+defining event handlers, and handling of data attributes.
 
 ## Usage
 
 ```coffee
 $ ->
-  # Initilaize Melange
+
   Melange.init()
 
-  # Start tracking events
   $(".element").click ->
-    Melange.report "clicked", "some element"
+    Melange.report "clicked some element"
 
-  # You can also attach meta data to your events
+  # You can also attach metadata to your events
   $(".element").click ->
-    Melange.report "clicked", "some element", { "a key": "a value" }
+    Melange.report "clicked some element", { sweetness: 10 }
 ```
 
 Usage Tips
@@ -73,6 +78,9 @@ $ ->
         break
 ```
 
+Sometimes you want to report data that's been changed by the user after page load.
+When you attach events to `input` elements in the DOM, their value
+will automatically be included in the properties object with a key of `input_value`.
 
 Development
 -----------
