@@ -26,22 +26,19 @@
       }
     };
 
-    Melange.report = function(action, subject, meta) {
-      if (meta == null) {
-        meta = {};
-      }
+    Melange.report = function(event_name, properties, callback) {
       if (typeof mixpanel === "undefined" || mixpanel === null) {
         return;
       }
       if (this.debug) {
-        return this.log("Melange.report", action, subject, meta);
+        return this.log(event_name, properties, callback);
       } else {
-        return mixpanel.track("" + action + " " + subject, meta);
+        return mixpanel.track(event_name, properties, callback);
       }
     };
 
-    Melange.reportView = function(subject, meta) {
-      return this.report("viewed", [this.host, subject].join(""), meta);
+    Melange.reportView = function(path, properties) {
+      return this.report("viewed " + this.host + path, properties);
     };
 
     return Melange;

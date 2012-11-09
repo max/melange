@@ -12,16 +12,17 @@ class Melange
     if window.console
       console.log.apply console, arguments
 
-  @report: (action, subject, meta = {}) ->
+  @report: (event_name, properties, callback) ->
     return unless mixpanel?
-
     if @debug
-      @log "Melange.report", action, subject, meta
+      @log(event_name, properties, callback)
     else
-      mixpanel.track("#{action} #{subject}", meta)
-    
-  @reportView: (subject, meta) ->
-    @report("viewed", [@host,subject].join(""), meta)
+      mixpanel.track(event_name, properties, callback)
 
+  # Convenience method for reporting page views.
+  # 
+  # Melange.reportView('/wibbles/123')
+  @reportView: (path, properties) ->
+    @report "viewed #{@host}#{path}", properties
 
 window.Melange = Melange
