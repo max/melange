@@ -4,9 +4,6 @@ Melange is a simple wrapper around the [Mixpanel Javascript
 API](https://mixpanel.com/docs/integration-libraries/javascript-full-api)
 that sends events to Mixpanel based on data attributes you set in the DOM.
 
-Melange currently has a dependency on jQuery, which it uses for DOM selectors, 
-defining event handlers, and handling of data attributes.
-
 ## Installation
 
 ```bash
@@ -27,6 +24,9 @@ metadata.
 
 <input type="text" data-melange_trigger='blur' data-melange_event_name='conducted a search'>
 ```
+
+Melange has a dependency on jQuery, which it uses for DOM selectors, 
+defining event handlers, and handling of data attributes:
 
 ```javascript
 $(function() {
@@ -64,12 +64,12 @@ Identify a user with a unique ID. If present, user is passed to
 Pro Tips
 --------
 
-### Use the prefix, Luke
+### Use the prefix, Luke.
 
 Only data attributes with the `melange_` prefix will be included. Any other 
 data attributes on the element will be ignored.
 
-### Use a consistent naming scheme for events
+### Use a consistent naming scheme for events.
 
 It's recommended that you track events in the format of `action` (in past tense)
 `subject`. For example:
@@ -78,7 +78,7 @@ It's recommended that you track events in the format of `action` (in past tense)
 * clicked button
 * opened modal
 
-### Get used to jQuery massaging your .data()
+### Beware of jQuery massaging your .data() attributes.
 
 Note that jQuery attempts to infer the type of your data values.
 
@@ -87,16 +87,17 @@ Note that jQuery attempts to infer the type of your data values.
 '2.5' => 2.5
 'foo' => 'foo'
 ```
+
 Depending on your use case, this may or may not be a good thing. See
 [this blog post](http://lookfirst.com/2011/12/dont-use-jquery-data-method-use-attr.html) 
 for pitfalls.
 
-### Track input values
+### Track input values.
 
 If you set up event tracking on an `<input>` element, its value will automatically 
 be included in event metadata with the key `input_value`.
 
-### Protect yourself from.. yourself
+### Protect yourself from... yourself.
 
 If easy to shoot yourself in the foot by forgetting to turn off preventBubbling and 
 deploying to production, rendering your site useless. To get around this, make your 
@@ -114,7 +115,7 @@ $(function() {
 Development
 -----------
 
-Use coffee to watch and compile:
+Fork this mother and clone it. Then use coffee to watch and compile:
 
 ```bash
 coffee -wc *.coffee
