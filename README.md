@@ -21,7 +21,7 @@ Any other data attributes with a `melange_` prefix will be included in the event
 metadata.
 
 ```html
-<a href="/foo" data-melange_trigger='click' data-melange_event_name='clicked the foo'>
+<a href="/foo" data-melange_trigger='click' data-melange_event_name='clicked the foo'>foo</a>
   
 <img src="unicorn.png" data-melange_trigger='hover' data-melange_event_name='hovered over the unicorn' data-melange_magic_factor="100">
 
@@ -49,27 +49,27 @@ mixpanel.track('conducted a search', {input_value: 'current value of input'})
 Options
 -------
 
-**logToConsole**
-Set to this `true` to see all events logged in the console.
+**logToConsole**  
+Set this to `true` to see all events logged in the console.
 
-**preventBubbling**
+**preventBubbling**  
 Sometimes you want to test a link click event, but your browser
 redirects to the link before you have a chance to see the results 
 logged in the console. To get around this, set `preventBubbling` to `true`.
 
-**user**
+**user**  
 Identify a user with a unique ID. If present, user is passed to 
 [mixpanel.identify](https://mixpanel.com/docs/integration-libraries/javascript-full-api#identify).
 
 Pro Tips
 --------
 
-### Use the Prefix, Luke
+### Use the prefix, Luke
 
 Only data attributes with the `melange_` prefix will be included. Any other 
 data attributes on the element will be ignored.
 
-### Event Name Formatting
+### Use a consistent naming scheme for events
 
 It's recommended that you track events in the format of `action` (in past tense)
 `subject`. For example:
@@ -78,7 +78,7 @@ It's recommended that you track events in the format of `action` (in past tense)
 * clicked button
 * opened modal
 
-### jQuery Massages .data()
+### Get used to jQuery massaging your .data()
 
 Note that jQuery attempts to infer the type of your data values.
 
@@ -91,16 +91,16 @@ Depending on your use case, this may or may not be a good thing. See
 [this blog post](http://lookfirst.com/2011/12/dont-use-jquery-data-method-use-attr.html) 
 for pitfalls.
 
-### Event Data in Form Inputs
+### Track input values
 
 If you set up event tracking on an `<input>` element, its value will automatically 
 be included in event metadata with the key `input_value`.
 
-### Protect yourself from yourself
+### Protect yourself from.. yourself
 
-If easy to shoot yourself in the foot by forgeting to turn off preventBubbling and 
+If easy to shoot yourself in the foot by forgetting to turn off preventBubbling and 
 deploying to production, rendering your site useless. To get around this, make your 
-app's `ENVIRONMENT` available on window, then use this config:
+app's environment available on window, then use this config:
 
 ```javascript
 $(function() {
