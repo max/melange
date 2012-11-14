@@ -12,7 +12,7 @@
     }
 
     Melange.config = {
-      debug: false,
+      logToConsole: false,
       preventBubbling: false
     };
 
@@ -23,16 +23,16 @@
       if (typeof mixpanel === "undefined" || mixpanel === null) {
         return;
       }
-      if (typeof user !== "undefined" && user !== null) {
-        mixpanel.people.identify(user);
+      if (options.logToConsole) {
+        this.config.logToConsole = options.logToConsole;
       }
-      if (options.debug != null) {
-        this.config.debug = options.debug;
-      }
-      if (options.preventBubbling != null) {
+      if (options.preventBubbling) {
         this.config.preventBubbling = options.preventBubbling;
       }
-      return this.setupEventHandlers();
+      if (options.user) {
+        mixpanel.identify(options.user);
+      }
+      return this.attachEventHandlers();
     };
 
     Melange.log = function() {
@@ -45,34 +45,43 @@
       if (typeof mixpanel === "undefined" || mixpanel === null) {
         return;
       }
-      if (this.config.debug) {
-        return this.log(event_name, properties, callback);
-      } else {
-        return mixpanel.track(event_name, properties, callback);
+      if (!((event_name != null) && event_name.length > 0)) {
+        return;
       }
+      if (this.config.logToConsole) {
+        this.log(event_name, properties, callback);
+      }
+      return mixpanel.track(event_name, properties, callback);
     };
 
     Melange.reportView = function(path, properties) {
       return this.report("viewed " + this.host + path, properties);
     };
 
-    Melange.setupEventHandlers = function() {
+    Melange.attachEventHandlers = function() {
       var event_type, event_types, _i, _len, _results;
-      event_types = ['blur', 'change', 'click', 'dblclick', 'focus', 'keydown', 'keypress', 'keyup', 'load', 'mousedown', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover', 'mouseup', 'resize', 'scroll', 'select', 'submit', 'unload'];
+      event_types = ['blur', 'change', 'click', 'dblclick', 'focus', 'keydown', 'keyup', 'mousedown', 'mouseenter', 'mouseleave', 'mouseout', 'mouseover', 'mouseup'];
       _results = [];
       for (_i = 0, _len = event_types.length; _i < _len; _i++) {
         event_type = event_types[_i];
-        _results.push($("[data-trigger=" + event_type + "]").on(event_type, function() {
-          var event_name, properties;
-          properties = $(this).data();
-          event_name = properties.event_name;
-          if (event_name == null) {
-            return;
+        _results.push($("[data-melange_trigger='" + event_type + "']").on(event_type, function(event) {
+          var event_name, key, properties, value, _ref1;
+          properties = {};
+          _ref1 = $(this).data();
+          for (key in _ref1) {
+            value = _ref1[key];
+            if (key.match(/melange_/i)) {
+              properties[key.replace('melange_', '')] = value;
+            }
           }
+          event_name = properties.event_name;
           delete properties.trigger;
           delete properties.event_name;
-          if ($(this)[0] && $(this)[0].nodeName && $(this)[0].nodeName.toLowerCase() === "input") {
+          if ($(this)[0] && $(this)[0].nodeName.match(/input/i)) {
             properties.input_value = $(this).val();
+            if (properties.input_value === "") {
+              return;
+            }
           }
           Melange.report(event_name, properties);
           if (Melange.config.preventBubbling) {
