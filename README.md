@@ -78,6 +78,22 @@ It's recommended that you track events in the format of `action` (in past tense)
 * clicked button
 * opened modal
 
+### Use this ruby helper
+
+Writing data attributes can be tedious.
+
+```ruby
+# Kick out a melange-friendly hash of HTML data attributes
+def track(trigger, event_name, properties={})
+  data = {
+    'melange_trigger' => trigger.to_s,
+    'melange_event_name' => event_name
+  }.merge(properties)
+  properties.each { |k,v| data["melange_#{k}"] = v }
+  data
+end
+```
+
 ### Beware of jQuery massaging your .data() attributes.
 
 Note that jQuery attempts to infer the type of your data values.
