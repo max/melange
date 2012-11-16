@@ -46,8 +46,7 @@ mixpanel.track('hovered over the unicorn', {magic_factor: 100})
 mixpanel.track('conducted a search', {input_value: 'current value of input'})
 ```
 
-Options
--------
+## Options
 
 **logToConsole**  
 Set this to `true` to see all events logged in the console.
@@ -61,8 +60,7 @@ logged in the console. To get around this, set `preventBubbling` to `true`.
 Identify a user with a unique ID. If present, user is passed to 
 [mixpanel.identify](https://mixpanel.com/docs/integration-libraries/javascript-full-api#identify).
 
-Pro Tips
---------
+## Pro Tips
 
 ### Use the prefix, Luke.
 
@@ -128,8 +126,7 @@ $(function() {
 });
 ```
 
-Development
------------
+## Development
 
 Fork this mother and clone it. Then use coffee to watch and compile:
 
@@ -137,7 +134,6 @@ Fork this mother and clone it. Then use coffee to watch and compile:
 coffee -wc *.coffee
 ```
 
-License
--------
+## License
 
 MIT. Go Nuts.
